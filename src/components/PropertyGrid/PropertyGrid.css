@@ -1,0 +1,12 @@
+.property-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+.property-grid__empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: #a8a29e;
+  font-style: italic;
+  grid-column: 1 / -1;
+}

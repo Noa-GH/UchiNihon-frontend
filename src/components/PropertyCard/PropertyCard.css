@@ -1,0 +1,109 @@
+.property-card {
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e7e0d8;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+.property-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(28, 25, 23, 0.12);
+}
+.property-card__media {
+  position: relative;
+  height: 210px;
+  overflow: hidden;
+}
+.property-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.property-card:hover .property-card__image {
+  transform: scale(1.04);
+}
+.property-card__price {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background: rgba(28, 25, 23, 0.85);
+  color: #d4a96a;
+  padding: 5px 12px;
+  border-radius: 3px;
+  font-family: 'Georgia', serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+.property-card__heart {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.92);
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #aaa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    transform 0.15s,
+    color 0.2s;
+}
+.property-card__heart:hover {
+  transform: scale(1.2);
+}
+.property-card__heart--active {
+  color: #c0392b;
+}
+.property-card__body {
+  padding: 18px;
+}
+.property-card__title {
+  font-family: 'Georgia', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1c1917;
+  margin-bottom: 6px;
+  line-height: 1.35;
+}
+.property-card__location {
+  font-size: 0.82rem;
+  color: #78716c;
+  margin-bottom: 4px;
+}
+.property-card__meta {
+  font-size: 0.78rem;
+  color: #a8a29e;
+  margin-bottom: 10px;
+}
+.property-card__description {
+  font-size: 0.85rem;
+  color: #57534e;
+  line-height: 1.6;
+  margin-bottom: 14px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.property-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.property-card__tag {
+  background: #f5ebe0;
+  color: #78716c;
+  padding: 3px 10px;
+  border-radius: 2px;
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  text-transform: lowercase;
+}

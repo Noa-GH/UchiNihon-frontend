@@ -1,0 +1,64 @@
+.about__hero {
+  background: #1c1917;
+  color: #f5ebe0;
+  text-align: center;
+  padding: 72px 24px;
+}
+.about__hero-title {
+  font-family: 'Georgia', serif;
+  font-size: 5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #d4a96a;
+  margin-bottom: 12px;
+}
+.about__hero-reading {
+  font-size: 1rem;
+  color: #78716c;
+  font-style: italic;
+  letter-spacing: 0.08em;
+}
+.about__container {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 64px 24px;
+}
+.about__section {
+  margin-bottom: 52px;
+}
+.about__section-title {
+  font-family: 'Georgia', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1c1917;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e7e0d8;
+}
+.about__text {
+  font-size: 1rem;
+  color: #44403c;
+  line-height: 1.85;
+}
+.about__list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.about__list-item {
+  font-size: 0.95rem;
+  color: #44403c;
+  line-height: 1.75;
+  padding-left: 20px;
+  border-left: 2px solid #d4a96a;
+}
+.about__section--callout {
+  background: #f5ebe0;
+  border-radius: 8px;
+  padding: 32px;
+}
+.about__section--callout .about__section-title {
+  border-bottom-color: #d4a96a;
+}
