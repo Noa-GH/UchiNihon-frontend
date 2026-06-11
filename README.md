@@ -1,3 +1,2 @@
-# UchiNihon Fronted README:
-
-This is will be updated and documented after first PR review, then detailed further afterwards.
+Previous context of this README was for onboarding TS asnd REACT setup. 
+This README will be coming soon... :)

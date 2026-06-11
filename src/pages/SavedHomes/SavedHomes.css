@@ -1,0 +1,51 @@
+.saved-homes {
+  background: #f7f4ef;
+  min-height: calc(100vh - 64px);
+  padding: 48px 24px;
+}
+.saved-homes__container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.saved-homes__header {
+  margin-bottom: 36px;
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+}
+.saved-homes__title {
+  font-family: 'Georgia', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1c1917;
+}
+.saved-homes__count {
+  color: #a8a29e;
+  font-size: 0.9rem;
+}
+.saved-homes__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+.saved-homes__empty {
+  text-align: center;
+  padding: 80px 20px;
+}
+.saved-homes__empty-text {
+  color: #78716c;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+.saved-homes__browse-link {
+  color: #1c1917;
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1px solid #1c1917;
+}
+.saved-homes__error {
+  color: #dc2626;
+  text-align: center;
+  padding: 40px;
+}
