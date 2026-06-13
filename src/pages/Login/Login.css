@@ -97,3 +97,16 @@
 .login__link:hover {
   text-decoration: underline;
 }
+
+@media (max-width: 320px) {
+  .login {
+    padding: 16px 0;
+  }
+
+  .login__card {
+    padding: 24px 16px;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+}

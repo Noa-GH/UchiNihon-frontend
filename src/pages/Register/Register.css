@@ -97,3 +97,28 @@
 .register__link:hover {
   text-decoration: underline;
 }
+
+.register__input--error {
+  border-color: #dc2626;
+}
+.register__input--error:focus {
+  border-color: #b91c1c;
+}
+.register__field-error {
+  color: #dc2626;
+  font-size: 0.8rem;
+  margin-top: -2px;
+}
+
+@media (max-width: 320px) {
+  .register {
+    padding: 16px 0;
+  }
+
+  .register__card {
+    padding: 24px 16px;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+}

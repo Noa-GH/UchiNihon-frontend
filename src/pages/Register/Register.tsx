@@ -9,13 +9,45 @@ function Register() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const [fieldErrors, setFieldErrors] = useState<{ name?: string; email?: string; password?: string }>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  const validateForm = () => {
+    const errors: { name?: string; email?: string; password?: string } = {};
+    if (!name.trim()) {
+      errors.name = 'Name is required';
+    } else if (name.trim().length < 2) {
+      errors.name = 'Name must be at least 2 characters';
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email) {
+      errors.email = 'Email address is required';
+    } else if (!emailRegex.test(email)) {
+      errors.email = 'Please enter a valid email address';
+    }
+
+    if (!password) {
+      errors.password = 'Password is required';
+    } else if (password.length < 6) {
+      errors.password = 'Password must be at least 6 characters';
+    }
+
+    setFieldErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
+    setFieldErrors({});
+    
+    if (!validateForm()) {
+      return;
+    }
+
     setIsLoading(true);
     try {
       // Register, then immediately sign in so the user is logged in right away.
@@ -25,7 +57,12 @@ function Register() {
       login(token, user);
       navigate('/');
     } catch (err) {
-      setError((err as Error).message || 'Registration failed. Please try again.');
+      const errMsg = (err as Error).message || 'Registration failed. Please try again.';
+      if (errMsg.toLowerCase().includes('email already exists') || errMsg.toLowerCase().includes('duplicate key')) {
+        setFieldErrors({ email: 'This email address is already in use.' });
+      } else {
+        setError(errMsg);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -51,13 +88,19 @@ function Register() {
             <input
               id="name"
               type="text"
-              className="register__input"
+              className={`register__input ${fieldErrors.name ? 'register__input--error' : ''}`}
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => {
+                setName(e.target.value);
+                if (fieldErrors.name) setFieldErrors(prev => ({ ...prev, name: undefined }));
+              }}
               minLength={2}
               autoComplete="name"
               required
             />
+            {fieldErrors.name && (
+              <span className="register__field-error">{fieldErrors.name}</span>
+            )}
           </div>
           <div className="register__field">
             <label className="register__label" htmlFor="email">
@@ -66,12 +109,18 @@ function Register() {
             <input
               id="email"
               type="email"
-              className="register__input"
+              className={`register__input ${fieldErrors.email ? 'register__input--error' : ''}`}
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (fieldErrors.email) setFieldErrors(prev => ({ ...prev, email: undefined }));
+              }}
               autoComplete="email"
               required
             />
+            {fieldErrors.email && (
+              <span className="register__field-error">{fieldErrors.email}</span>
+            )}
           </div>
           <div className="register__field">
             <label className="register__label" htmlFor="password">
@@ -80,13 +129,19 @@ function Register() {
             <input
               id="password"
               type="password"
-              className="register__input"
+              className={`register__input ${fieldErrors.password ? 'register__input--error' : ''}`}
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                if (fieldErrors.password) setFieldErrors(prev => ({ ...prev, password: undefined }));
+              }}
               minLength={6}
               autoComplete="new-password"
               required
             />
+            {fieldErrors.password && (
+              <span className="register__field-error">{fieldErrors.password}</span>
+            )}
           </div>
           <button type="submit" className="register__submit" disabled={isLoading}>
             {isLoading ? 'Creating account...' : 'Create Account'}

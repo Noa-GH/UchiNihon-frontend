@@ -62,3 +62,23 @@
 .about__section--callout .about__section-title {
   border-bottom-color: #d4a96a;
 }
+
+@media (max-width: 320px) {
+  .about__hero {
+    padding: 48px 16px;
+  }
+
+  .about__hero-title {
+    font-size: 3rem;
+    overflow-wrap: break-word;
+  }
+
+  .about__container {
+    padding: 40px 16px;
+  }
+
+  .about__section--callout {
+    border-radius: 0;
+    padding: 24px 16px;
+  }
+}

@@ -49,3 +49,19 @@
   text-align: center;
   padding: 40px;
 }
+
+@media (max-width: 320px) {
+  .saved-homes {
+    padding: 32px 16px;
+  }
+
+  .saved-homes__header {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .saved-homes__grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
