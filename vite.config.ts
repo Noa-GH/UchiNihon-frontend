@@ -11,5 +11,6 @@ export default defineConfig({
   server: {
     // Run the dev frontend on 3000 so it doesn't conflict with a backend on 3001.
     port: 3000,
+    strictPort: true,
   },
 });
