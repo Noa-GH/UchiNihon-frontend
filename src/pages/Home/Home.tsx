@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/customHooks/useAuth';
 import { useSavedHomes, useSaveProperty, useUnsaveProperty } from '@/hooks/useSavedHomes';
 import { mockAkiyaListings, prefectureOptions } from '@/utils/mockData';
@@ -45,9 +46,9 @@ function Home() {
             affordable countryside properties — some offered for free.
           </p>
           {!isLoggedIn && (
-            <a href="/register" className="home__hero-cta">
+            <Link to="/register" className="home__hero-cta">
               Create a free account →
-            </a>
+            </Link>
           )}
         </div>
       </section>

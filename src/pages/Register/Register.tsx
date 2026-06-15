@@ -9,7 +9,11 @@ function Register() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
-  const [fieldErrors, setFieldErrors] = useState<{ name?: string; email?: string; password?: string }>({});
+  const [fieldErrors, setFieldErrors] = useState<{
+    name?: string;
+    email?: string;
+    password?: string;
+  }>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -43,7 +47,7 @@ function Register() {
     e.preventDefault();
     setError('');
     setFieldErrors({});
-    
+
     if (!validateForm()) {
       return;
     }
@@ -58,7 +62,10 @@ function Register() {
       navigate('/');
     } catch (err) {
       const errMsg = (err as Error).message || 'Registration failed. Please try again.';
-      if (errMsg.toLowerCase().includes('email already exists') || errMsg.toLowerCase().includes('duplicate key')) {
+      if (
+        errMsg.toLowerCase().includes('email already exists') ||
+        errMsg.toLowerCase().includes('duplicate key')
+      ) {
         setFieldErrors({ email: 'This email address is already in use.' });
       } else {
         setError(errMsg);
@@ -92,15 +99,13 @@ function Register() {
               value={name}
               onChange={(e) => {
                 setName(e.target.value);
-                if (fieldErrors.name) setFieldErrors(prev => ({ ...prev, name: undefined }));
+                if (fieldErrors.name) setFieldErrors((prev) => ({ ...prev, name: undefined }));
               }}
               minLength={2}
               autoComplete="name"
               required
             />
-            {fieldErrors.name && (
-              <span className="register__field-error">{fieldErrors.name}</span>
-            )}
+            {fieldErrors.name && <span className="register__field-error">{fieldErrors.name}</span>}
           </div>
           <div className="register__field">
             <label className="register__label" htmlFor="email">
@@ -113,7 +118,7 @@ function Register() {
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
-                if (fieldErrors.email) setFieldErrors(prev => ({ ...prev, email: undefined }));
+                if (fieldErrors.email) setFieldErrors((prev) => ({ ...prev, email: undefined }));
               }}
               autoComplete="email"
               required
@@ -133,7 +138,8 @@ function Register() {
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
-                if (fieldErrors.password) setFieldErrors(prev => ({ ...prev, password: undefined }));
+                if (fieldErrors.password)
+                  setFieldErrors((prev) => ({ ...prev, password: undefined }));
               }}
               minLength={6}
               autoComplete="new-password"
