@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useState, useEffect, useCallback } from 'react';
 import { getCurrentUser } from '@/utils/api';
 import { AuthContextValue, CurrentUser } from '@/types';
 
@@ -16,7 +16,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!token) {
-      setIsAuthLoading(false);
       return;
     }
     getCurrentUser(token)
@@ -26,8 +25,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setToken('');
       })
       .finally(() => setIsAuthLoading(false));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [token]);
 
   // Called after a successful signin or signup + auto-login
   const login = useCallback((newToken: string, user: CurrentUser) => {

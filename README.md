@@ -1,12 +1,13 @@
 # UchiNihon Frontend
 
-UchiNihon is an application dedicated to finding abandoned Japanese homes (known as *Akiya*) across Japan. 
+UchiNihon is an application dedicated to finding abandoned Japanese homes (known as _Akiya_) across Japan.
 
 ## Purpose & Problem Solved
 
 There are millions of unoccupied homes in Japan, many of which are deteriorating and forgotten. For non-Japanese speakers, acquiring one of these homes is incredibly challenging.
 
 This project exists to solve that problem by providing a modern, English-friendly application. UchiNihon helps English speakers discover homes that would otherwise be lost due to:
+
 - Severe language barriers in traditional Japanese real estate.
 - Poor data collection and fragmentation of Akiya listings across various small municipal databases.
 - The lack of English-friendly applications catering to the home buying and renting process in rural Japan.
@@ -27,6 +28,7 @@ This frontend application is built using modern web technologies to ensure a fas
 To get the application running locally, follow these steps:
 
 1. **Clone the repository:**
+
    ```bash
    git clone <repository-url>
    cd UchiNihon-frontend
@@ -34,12 +36,14 @@ To get the application running locally, follow these steps:
 
 2. **Install dependencies:**
    Ensure you have [Node.js](https://nodejs.org/) installed, then run:
+
    ```bash
    npm install
    ```
 
 3. **Configure Environment Variables:**
    Copy the example environment file and configure any necessary variables for your local setup:
+
    ```bash
    cp .env.example .env
    ```
@@ -55,9 +59,11 @@ To get the application running locally, follow these steps:
 To deploy the application to a production environment:
 
 1. **Build the project:**
+
    ```bash
    npm run build
    ```
+
    This will compile the TypeScript code and bundle the React application into the `dist/` directory, optimized for production.
 
 2. **Deploy the `dist/` folder:**

@@ -50,7 +50,10 @@ function PropertyGrid({
   if (properties.length === 0) {
     return (
       <div className="property-grid__empty">
-        <p>No listings match your search. Try adjusting your filters, or check back once the database has been synced with live data.</p>
+        <p>
+          No listings match your search. Try adjusting your filters, or check back once the database
+          has been synced with live data.
+        </p>
       </div>
     );
   }

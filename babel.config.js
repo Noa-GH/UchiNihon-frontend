@@ -1,3 +1,3 @@
 export default {
-  plugins: ["babel-plugin-react-compiler"],
+  plugins: ['babel-plugin-react-compiler'],
 };
