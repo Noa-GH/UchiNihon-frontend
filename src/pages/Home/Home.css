@@ -91,6 +91,12 @@
   font-family: inherit;
 }
 
+.home__filter-count-refreshing {
+  color: #d4a96a;
+  font-size: 0.78rem;
+  font-style: italic;
+}
+
 @media (max-width: 320px) {
   .home__hero {
     padding: 48px 16px;

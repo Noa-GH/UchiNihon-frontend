@@ -1,4 +1,10 @@
-import { CurrentUser, SavedProperty, SigninResponse, SignupResponse } from '@/types';
+import { AkiyaListing, CurrentUser, SavedProperty, SigninResponse, SignupResponse } from '@/types';
+
+// ─── Listings query params ────────────────────────────────────────────────────
+export interface ListingsParams {
+  prefecture?: string;
+  maxPrice?: number;
+}
 
 // All calls to Express backend live here.
 // VITE_API_BASE_URL is read from .env.
@@ -8,6 +14,7 @@ import { CurrentUser, SavedProperty, SigninResponse, SignupResponse } from '@/ty
 // No proxy needed. No code changes between environments.
 // Prefer an explicit VITE_API_BASE_URL. If it's missing, default to a local
 // development backend URL so dev users don't get a 404 from the frontend origin.
+
 const DEFAULT_BASE_URL = import.meta.env.DEV ? 'http://localhost:3001' : '';
 const BASE_URL = (import.meta.env.VITE_API_BASE_URL as string) || DEFAULT_BASE_URL;
 
@@ -78,4 +85,29 @@ export function unsaveProperty(token: string, propertyDbId: string): Promise<{ m
     method: 'DELETE',
     headers: jsonHeaders(token),
   }).then((res) => handleResponse<{ message: string }>(res));
+}
+
+// ─── Public Listings ──────────────────────────────────────────────────────────
+// No auth token required — available to logged-out visitors.
+// The backend returns all Akiya properties in the database, filtered by the
+// optional query params. When the DB is empty (before any e-Stat sync),
+// the response is { count: 0, properties: [] }.
+
+export interface ListingsResponse {
+  count: number;
+  properties: AkiyaListing[];
+}
+
+export function getListings(params: ListingsParams = {}): Promise<ListingsResponse> {
+  const query = new URLSearchParams();
+  if (params.prefecture && params.prefecture !== 'All') {
+    query.set('prefecture', params.prefecture);
+  }
+  if (params.maxPrice !== undefined) {
+    query.set('maxPrice', String(params.maxPrice));
+  }
+  const qs = query.toString();
+  return fetch(`${BASE_URL}/api/listings${qs ? `?${qs}` : ''}`).then((res) =>
+    handleResponse<ListingsResponse>(res)
+  );
 }

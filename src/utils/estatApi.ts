@@ -37,7 +37,7 @@ const MOCK_STATS: VacancyStat[] = [
 // It is NOT process.env — that only exists in Node.js.
 const E_STAT_APP_ID = import.meta.env.VITE_ESTAT_APP_ID as string | undefined;
 const E_STAT_BASE = 'https://api.e-stat.go.jp/rest/3.0/app/json';
-const STATS_DATA_ID = '0000872903'; // 2018 Housing and Land Survey
+const STATS_DATA_ID = '00200522'; // 2018 Housing and Land Survey
 
 export async function fetchVacancyStats(): Promise<VacancyStat[]> {
   if (!E_STAT_APP_ID) {
@@ -58,7 +58,10 @@ export async function fetchVacancyStats(): Promise<VacancyStat[]> {
 
     const json = await res.json();
     const rawValues = json?.GET_STATS_DATA?.STATISTICAL_DATA?.DATA_INF?.VALUE;
-    if (!Array.isArray(rawValues)) throw new Error('Unexpected e-Stat response shape');
+    if (json.json?.GET_STATS_DATA?.RESULT?.STATUS !== 0) {
+      throw new Error(`e-Stat Error: ${json.GET_STATS_DATA?.RESULT?.ERROR_MSG}`);
+    }
+    // if (!Array.isArray(rawValues)) throw new Error('Unexpected e-Stat response shape');
 
     const mapped = rawValues.slice(0, 10).map((v: Record<string, string>) => ({
       prefecture: v['@area'] ?? 'Unknown',

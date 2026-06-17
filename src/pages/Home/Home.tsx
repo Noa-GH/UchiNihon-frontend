@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/customHooks/useAuth';
 import { useSavedHomes, useSaveProperty, useUnsaveProperty } from '@/hooks/useSavedHomes';
-import { mockAkiyaListings, prefectureOptions } from '@/utils/mockData';
+import { useListings } from '@/hooks/useListings';
+import { prefectureOptions } from '@/utils/mockData';
 import PropertyGrid from '@/components/PropertyGrid/PropertyGrid';
 import RegionStats from '@/components/RegionStats/RegionStats';
 import { AkiyaListing } from '@/types';
@@ -13,12 +14,27 @@ function Home() {
   const [filterPrefecture, setFilterPrefecture] = useState<string>('All');
   const [filterMaxPrice, setFilterMaxPrice] = useState<string>('');
 
+  // ── Saved-homes state (auth-gated) ─────────────────────────────────────────
   const { data: savedProperties = [] } = useSavedHomes();
   const saveProperty = useSaveProperty();
   const unsaveProperty = useUnsaveProperty();
-
   const savedIds = savedProperties.map((p) => p.listingId);
 
+  // ── Live listings from the public API ─────────────────────────────────────
+  // Filtering is done server-side so the query key changes with the filters,
+  // causing React Query to re-fetch automatically. placeholderData in the hook
+  // keeps the previous results visible while the new request is in-flight.
+  const {
+    data: listingsData,
+    isLoading,
+    isError,
+    isFetching,
+  } = useListings(filterPrefecture, filterMaxPrice);
+
+  const listings: AkiyaListing[] = listingsData?.properties ?? [];
+  const listingCount: number = listingsData?.count ?? 0;
+
+  // ── Save / unsave handlers ─────────────────────────────────────────────────
   const handleSaveToggle = (property: AkiyaListing, nowSaved: boolean) => {
     if (!isLoggedIn) return;
     if (nowSaved) {
@@ -28,12 +44,6 @@ function Home() {
       if (saved) unsaveProperty.mutate(saved._id);
     }
   };
-
-  const filteredListings = mockAkiyaListings.filter((p) => {
-    if (filterPrefecture !== 'All' && p.prefecture !== filterPrefecture) return false;
-    if (filterMaxPrice !== '' && p.price > Number(filterMaxPrice)) return false;
-    return true;
-  });
 
   return (
     <main className="home">
@@ -81,7 +91,16 @@ function Home() {
           />
 
           <span className="home__filter-count">
-            {filteredListings.length} listing{filteredListings.length !== 1 ? 's' : ''}
+            {isLoading ? (
+              '…'
+            ) : (
+              <>
+                {listingCount} listing{listingCount !== 1 ? 's' : ''}
+                {isFetching && !isLoading && (
+                  <span className="home__filter-count-refreshing"> (refreshing…)</span>
+                )}
+              </>
+            )}
           </span>
 
           {(filterPrefecture !== 'All' || filterMaxPrice !== '') && (
@@ -98,9 +117,11 @@ function Home() {
         </div>
 
         <PropertyGrid
-          properties={filteredListings}
+          properties={listings}
           savedIds={savedIds}
           onSaveToggle={handleSaveToggle}
+          isLoading={isLoading}
+          isError={isError}
         />
 
         <RegionStats />
