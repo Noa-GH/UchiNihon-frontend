@@ -35,7 +35,7 @@ function RegionStats() {
       <div className="region-stats__header">
         <h2 className="region-stats__title">Vacancy Rates by Prefecture</h2>
         <p className="region-stats__source">
-          Source: Japan Ministry of Internal Affairs — 2018 Housing and Land Survey
+          Source: Japan Ministry of Internal Affairs — 2023 Housing and Land Survey
         </p>
       </div>
       <div className="region-stats__bars">

@@ -18,7 +18,7 @@ const VacancyStatsSchema = z.array(VacancyStatSchema);
 
 // ─── Mock fallback ───────────────────────────────────────────────────────────
 // Used when VITE_ESTAT_APP_ID is not set.
-// Directionally accurate — based on the 2018 Japan Housing and Land Survey.
+// Directionally accurate — based on the 2023 Japan Housing and Land Survey.
 const MOCK_STATS: VacancyStat[] = [
   { prefecture: 'Wakayama', vacancyRate: 20.3, vacantHomes: 44300 },
   { prefecture: 'Yamanashi', vacancyRate: 20.1, vacantHomes: 39200 },
@@ -37,7 +37,7 @@ const MOCK_STATS: VacancyStat[] = [
 // It is NOT process.env — that only exists in Node.js.
 const E_STAT_APP_ID = import.meta.env.VITE_ESTAT_APP_ID as string | undefined;
 const E_STAT_BASE = 'https://api.e-stat.go.jp/rest/3.0/app/json';
-const STATS_DATA_ID = '00200522'; // 2018 Housing and Land Survey
+const STATS_DATA_ID = '00200522'; // 2023 Housing and Land Survey
 
 export async function fetchVacancyStats(): Promise<VacancyStat[]> {
   if (!E_STAT_APP_ID) {
