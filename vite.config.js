@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 export default defineConfig({
-  base: '/UchiNihon-frontend',
+  base: '/UchiNihon-frontend/',
   plugins: [react()],
   resolve: {
     alias: {
