@@ -9,21 +9,11 @@ import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <BrowserRouter>
-      {/*
-        QueryClientProvider sits above everything — including the router and
-        auth context — so any future router-level data loaders can also use
-        React Query hooks.
-      */}
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
         <App />
-        {/*
-          ReactQueryDevtools adds a floating panel showing every query's status,
-          cached data, and refetch controls. Excluded from production builds automatically.
-          Click the React Query logo in the bottom corner to open it.
-        */}
         <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </QueryClientProvider>
   </React.StrictMode>
 );
