@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
@@ -9,6 +9,7 @@ import Register from './pages/Register/Register';
 import SavedHomes from './pages/SavedHomes/SavedHomes';
 import './App.css';
 import Header from './components/Header/Header';
+import { getListings } from '@/utils/api';
 
 // Main application component that sets up routing and authentication context
 // Wires up three layers:
@@ -19,6 +20,13 @@ import Header from './components/Header/Header';
 // QueryClientProvider lives in main.tsx above App, so all pages can use react-query for data fetching and caching without needing to wrap each page individually.
 
 function App() {
+  useEffect(() => {
+    // Ping the backend on initial load to wake it up if it's sleeping (Render free tier)
+    getListings({ limit: 1 } as any).catch(() => {
+      // Ignore errors, we just want to wake up the server
+    });
+  }, []);
+
   return (
     <AuthProvider>
       <div className="app">

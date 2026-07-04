@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { signin, getCurrentUser } from '@/utils/api';
 import { useAuth } from '@/hooks/customHooks/useAuth';
+import { useFormAndValidation } from '@/hooks/customHooks/useFormAndValidation';
+import { loginSchema } from '@/utils/validation';
+import Form from '@/components/Form/Form';
 import './Login.css';
 
 function Login() {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const { values, handleChange, errors, validateWithZod } = useFormAndValidation({ email: '', password: '' });
   const [error, setError] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { login } = useAuth();
@@ -18,9 +20,14 @@ function Login() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
+    
+    if (!validateWithZod(loginSchema)) {
+      return;
+    }
+
     setIsLoading(true);
     try {
-      const { token } = await signin(email, password);
+      const { token } = await signin(values.email, values.password);
       const user = await getCurrentUser(token);
       login(token, user);
       navigate(redirectTo, { replace: true });
@@ -33,57 +40,56 @@ function Login() {
 
   return (
     <main className="login">
-      <div className="login__card">
-        <h1 className="login__title">Welcome back</h1>
-        <p className="login__subtitle">Sign in to access your saved homes</p>
-
-        {error && (
-          <div className="login__error" role="alert">
-            {error}
-          </div>
-        )}
-
-        <form className="login__form" onSubmit={handleSubmit} noValidate>
-          <div className="login__field">
-            <label className="login__label" htmlFor="email">
-              Email address
-            </label>
-            <input
-              id="email"
-              type="email"
-              className="login__input"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              autoComplete="email"
-              required
-            />
-          </div>
-          <div className="login__field">
-            <label className="login__label" htmlFor="password">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              className="login__input"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="current-password"
-              required
-            />
-          </div>
-          <button type="submit" className="login__submit" disabled={isLoading}>
-            {isLoading ? 'Signing in...' : 'Sign In'}
-          </button>
-        </form>
-
-        <p className="login__footer">
-          Don't have an account?{' '}
-          <Link to="/register" className="login__link">
-            Create one
-          </Link>
-        </p>
-      </div>
+      <Form
+        title="Welcome back"
+        subtitle="Sign in to access your saved homes"
+        error={error}
+        onSubmit={handleSubmit}
+        isLoading={isLoading}
+        submitText="Sign In"
+        loadingText="Signing in..."
+        footer={
+          <>
+            Don't have an account?{' '}
+            <Link to="/register" className="auth-link">
+              Create one
+            </Link>
+          </>
+        }
+      >
+        <div className="auth-field">
+          <label className="auth-label" htmlFor="email">
+            Email address
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            className={`auth-input ${errors.email ? 'auth-input--error' : ''}`}
+            value={values.email}
+            onChange={handleChange}
+            autoComplete="email"
+            required
+          />
+          {errors.email && <span className="auth-field-error">{errors.email}</span>}
+        </div>
+        <div className="auth-field">
+          <label className="auth-label" htmlFor="password">
+            Password
+          </label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            className={`auth-input ${errors.password ? 'auth-input--error' : ''}`}
+            value={values.password}
+            onChange={handleChange}
+            autoComplete="current-password"
+            required
+          />
+          {errors.password && <span className="auth-field-error">{errors.password}</span>}
+        </div>
+      </Form>
     </main>
   );
 }

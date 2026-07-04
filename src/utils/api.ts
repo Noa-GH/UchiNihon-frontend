@@ -30,6 +30,27 @@ async function handleResponse<T>(res: Response): Promise<T> {
   return res.json() as Promise<T>;
 }
 
+async function request<T>(url: string, options?: RequestInit, retries = 2): Promise<T> {
+  try {
+    const res = await fetch(url, options);
+    // Render free tier might return 502 Bad Gateway or 503 Service Unavailable briefly while spinning up
+    if (!res.ok && (res.status === 502 || res.status === 503) && retries > 0) {
+      console.warn(`Backend spinning up (${res.status}). Retrying in 2 seconds...`);
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      return request<T>(url, options, retries - 1);
+    }
+    return handleResponse<T>(res);
+  } catch (err) {
+    // Also retry on network errors (fetch throws TypeError on network failure)
+    if (err instanceof TypeError && retries > 0) {
+      console.warn('Network error (backend might be down/spinning up). Retrying in 2 seconds...');
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      return request<T>(url, options, retries - 1);
+    }
+    throw err;
+  }
+}
+
 function jsonHeaders(token?: string): HeadersInit {
   return {
     'Content-Type': 'application/json',
@@ -40,51 +61,51 @@ function jsonHeaders(token?: string): HeadersInit {
 // ─── Auth ────────────────────────────────────────────────────────────────────
 
 export function signup(name: string, email: string, password: string): Promise<SignupResponse> {
-  return fetch(`${BASE_URL}/api/signup`, {
+  return request<SignupResponse>(`${BASE_URL}/api/signup`, {
     method: 'POST',
     headers: jsonHeaders(),
     body: JSON.stringify({ name, email, password }),
-  }).then((res) => handleResponse<SignupResponse>(res));
+  });
 }
 
 export function signin(email: string, password: string): Promise<SigninResponse> {
-  return fetch(`${BASE_URL}/api/signin`, {
+  return request<SigninResponse>(`${BASE_URL}/api/signin`, {
     method: 'POST',
     headers: jsonHeaders(),
     body: JSON.stringify({ email, password }),
-  }).then((res) => handleResponse<SigninResponse>(res));
+  });
 }
 
 export function getCurrentUser(token: string): Promise<CurrentUser> {
-  return fetch(`${BASE_URL}/api/users/me`, {
+  return request<CurrentUser>(`${BASE_URL}/api/users/me`, {
     headers: jsonHeaders(token),
-  }).then((res) => handleResponse<CurrentUser>(res));
+  });
 }
 
 // ─── Saved Properties ────────────────────────────────────────────────────────
 
 export function getSavedProperties(token: string): Promise<SavedProperty[]> {
-  return fetch(`${BASE_URL}/api/properties/saved`, {
+  return request<SavedProperty[]>(`${BASE_URL}/api/properties/saved`, {
     headers: jsonHeaders(token),
-  }).then((res) => handleResponse<SavedProperty[]>(res));
+  });
 }
 
 export function saveProperty(
   token: string,
   propertyData: Omit<SavedProperty, '_id' | 'owner' | 'createdAt' | 'updatedAt'>
 ): Promise<SavedProperty> {
-  return fetch(`${BASE_URL}/api/properties/saved`, {
+  return request<SavedProperty>(`${BASE_URL}/api/properties/saved`, {
     method: 'POST',
     headers: jsonHeaders(token),
     body: JSON.stringify(propertyData),
-  }).then((res) => handleResponse<SavedProperty>(res));
+  });
 }
 
 export function unsaveProperty(token: string, propertyDbId: string): Promise<{ message: string }> {
-  return fetch(`${BASE_URL}/api/properties/saved/${propertyDbId}`, {
+  return request<{ message: string }>(`${BASE_URL}/api/properties/saved/${propertyDbId}`, {
     method: 'DELETE',
     headers: jsonHeaders(token),
-  }).then((res) => handleResponse<{ message: string }>(res));
+  });
 }
 
 // ─── Public Listings ──────────────────────────────────────────────────────────
@@ -107,7 +128,6 @@ export function getListings(params: ListingsParams = {}): Promise<ListingsRespon
     query.set('maxPrice', String(params.maxPrice));
   }
   const qs = query.toString();
-  return fetch(`${BASE_URL}/api/listings${qs ? `?${qs}` : ''}`).then((res) =>
-    handleResponse<ListingsResponse>(res)
-  );
+  return request<ListingsResponse>(`${BASE_URL}/api/listings${qs ? `?${qs}` : ''}`);
 }
+
