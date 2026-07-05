@@ -1,0 +1,127 @@
+.home__hero {
+  background: #1c1917;
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(212, 169, 106, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(192, 57, 43, 0.06) 0%, transparent 50%);
+  color: #f5ebe0;
+  padding: 96px 24px;
+  text-align: center;
+}
+.home__hero-content {
+  max-width: 640px;
+  margin: 0 auto;
+}
+.home__hero-eyebrow {
+  font-size: 0.78rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #d4a96a;
+  margin-bottom: 16px;
+}
+.home__hero-title {
+  font-family: 'Georgia', serif;
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+.home__hero-sub {
+  font-size: 1.05rem;
+  color: #a8a29e;
+  line-height: 1.75;
+  margin-bottom: 36px;
+}
+.home__hero-cta {
+  display: inline-block;
+  background: #d4a96a;
+  color: #1c1917;
+  padding: 14px 28px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition:
+    background 0.2s,
+    transform 0.15s;
+}
+.home__hero-cta:hover {
+  background: #c49558;
+  transform: translateY(-1px);
+}
+.home__content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+.home__filters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+.home__filter-select,
+.home__filter-input {
+  padding: 10px 14px;
+  border: 1px solid #d6cdc4;
+  border-radius: 4px;
+  font-size: 0.88rem;
+  background: #fff;
+  color: #1c1917;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.home__filter-select:focus,
+.home__filter-input:focus {
+  border-color: #1c1917;
+}
+.home__filter-count {
+  color: #a8a29e;
+  font-size: 0.85rem;
+  margin-left: auto;
+}
+.home__filter-clear {
+  background: none;
+  border: none;
+  color: #c0392b;
+  font-size: 0.82rem;
+  cursor: pointer;
+  text-decoration: underline;
+  font-family: inherit;
+}
+
+.home__filter-count-refreshing {
+  color: #d4a96a;
+  font-size: 0.78rem;
+  font-style: italic;
+}
+
+@media (max-width: 320px) {
+  .home__hero {
+    padding: 48px 16px;
+  }
+
+  .home__hero-title {
+    font-size: 2.25rem;
+    overflow-wrap: break-word;
+  }
+
+  .home__content {
+    padding: 32px 16px;
+  }
+
+  .home__filters {
+    gap: 8px;
+  }
+
+  .home__filter-select,
+  .home__filter-input {
+    width: 100%;
+  }
+
+  .home__filter-count {
+    margin-left: 0;
+    width: 100%;
+  }
+}

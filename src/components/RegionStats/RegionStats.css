@@ -1,0 +1,59 @@
+.region-stats {
+  background: #1c1917;
+  color: #f5ebe0;
+  border-radius: 8px;
+  padding: 36px;
+  margin: 56px 0;
+}
+.region-stats__header {
+  margin-bottom: 28px;
+}
+.region-stats__title {
+  font-family: 'Georgia', serif;
+  font-size: 1.4rem;
+  margin-bottom: 6px;
+}
+.region-stats__source {
+  font-size: 0.78rem;
+  color: #78716c;
+  font-style: italic;
+}
+.region-stats__bars {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.region-stats__row {
+  display: grid;
+  grid-template-columns: 120px 1fr 50px;
+  align-items: center;
+  gap: 14px;
+}
+.region-stats__name {
+  font-size: 0.85rem;
+  color: #d4a96a;
+  text-align: right;
+}
+.region-stats__track {
+  height: 8px;
+  background: #292524;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.region-stats__fill {
+  height: 100%;
+  background: linear-gradient(90deg, #d4a96a, #c0392b);
+  border-radius: 4px;
+  transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.region-stats__rate {
+  font-size: 0.85rem;
+  color: #a8a29e;
+  text-align: right;
+}
+.region-stats__loading,
+.region-stats__error {
+  text-align: center;
+  padding: 32px;
+  color: #a8a29e;
+}

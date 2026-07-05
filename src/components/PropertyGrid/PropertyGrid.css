@@ -1,0 +1,74 @@
+.property-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+.property-grid__empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: #a8a29e;
+  font-style: italic;
+  grid-column: 1 / -1;
+}
+
+.property-grid__error {
+  color: #f87171;
+  font-style: normal;
+  font-size: 0.95rem;
+}
+
+/* ── Skeleton shimmer ─────────────────────────────────────── */
+@keyframes shimmer {
+  0% {
+    background-position: -600px 0;
+  }
+  100% {
+    background-position: 600px 0;
+  }
+}
+
+.property-card--skeleton {
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.skeleton-block,
+.skeleton-line {
+  background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+  background-size: 600px 100%;
+  animation: shimmer 1.4s infinite linear;
+  border-radius: 6px;
+}
+
+.property-card--skeleton .property-card__media.skeleton-block {
+  height: 200px;
+  border-radius: 0;
+}
+
+.property-card--skeleton .property-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+}
+
+.skeleton-line {
+  height: 14px;
+  width: 100%;
+}
+
+.skeleton-line--title {
+  height: 18px;
+  width: 75%;
+}
+
+.skeleton-line--short {
+  width: 50%;
+}
+
+@media (max-width: 320px) {
+  .property-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}

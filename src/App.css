@@ -1,0 +1,13 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 320px) {
+  .app {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+}

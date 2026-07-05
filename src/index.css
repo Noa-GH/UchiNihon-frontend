@@ -1,0 +1,31 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  overflow-x: clip;
+}
+
+body {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  background-color: #f7f4ef;
+  color: #1c1c1e;
+  line-height: 1.6;
+}
+
+/* Reusable full-page loading state */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  font-size: 1rem;
+  color: #888;
+}
