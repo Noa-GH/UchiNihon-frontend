@@ -23,7 +23,7 @@ export function useFormAndValidation<T extends Record<string, any>>(initialValue
       if (err instanceof ZodError) {
         const newErrors: Record<string, string> = {};
         // Only set the first error per field for simplicity
-        err.errors.forEach((error) => {
+        err.issues.forEach((error) => {
           const field = error.path[0]?.toString();
           if (field && !newErrors[field]) {
             newErrors[field] = error.message;
